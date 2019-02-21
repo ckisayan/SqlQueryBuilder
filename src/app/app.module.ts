@@ -11,6 +11,9 @@ import {TableModule} from 'primeng/table';
 import {DataTableModule} from 'primeng/datatable';
 import { CarService } from './service/carservice';
 
+import {AccordionModule} from 'primeng/accordion';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +26,9 @@ import { CarService } from './service/carservice';
     FormsModule,
     DragDropModule,
     TableModule,
-    DataTableModule
+    DataTableModule,
+    BrowserAnimationsModule,    
+    AccordionModule
   ],
   providers: [CarService],
   bootstrap: [AppComponent]

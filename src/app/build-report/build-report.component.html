@@ -1,40 +1,110 @@
-<query-builder [(ngModel)]='query' [config]='config'></query-builder>
+<p-accordion>
+    <p-accordionTab header="Drag and Drop to Table" [selected]="true">
+        <div class="ui-g" style="width: 1200px">
+            <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbTables" (onDrop)="dropDbTable($event)" [ngClass]="{'ui-highlight-dbTable':draggedDbTable}">
+                <p-table [value]="availableDbTables">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Table Name</th>
+                            <th>Table Desc</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dbTable>
+                        <tr>
+                            <td>{{dbTable.tableName}}</td>
+                            <td>{{dbTable.tableDesc}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbTables" (onDrop)="dropDbTable($event)" [ngClass]="{'ui-highlight-dbTable':draggedDbTable}">
+                <p-table [value]="selectedDbTables">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Table Name</th>
+                            <th>Table Desc</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dbTable>
+                        <tr>
+                            <td>{{dbTable.tableName}}</td>
+                            <td>{{dbTable.tableDesc}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </p-accordionTab>
 
-<h3>Drag and Drop to Table</h3>
-<div class="ui-g">
-     
-    <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbTables" (onDrop)="dropDbTable($event)"
-        [ngClass]="{'ui-highlight-dbTable':draggedDbTable}">
-        <p-table [value]="availableDbTables">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Table Name</th>
-                    <th>Table Desc</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-dbTable>
-                <tr>
-                    <td>{{dbTable.tableName}}</td>
-                    <td>{{dbTable.tableDesc}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-    <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbTables" (onDrop)="dropDbTable($event)"
-        [ngClass]="{'ui-highlight-dbTable':draggedDbTable}">
-        <p-table [value]="selectedDbTables">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Table Name</th>
-                    <th>Table Desc</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-dbTable>
-                <tr>
-                    <td>{{dbTable.tableName}}</td>
-                    <td>{{dbTable.tableDesc}}</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-</div>
+    <p-accordionTab header="Drag and Drop to Column" [selected]="true">
+        <div class="ui-g" style="width: 1200px">
+            <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbColumns">
+                <p-table [value]="availableDbColumns">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Column Desc</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dbColumn>
+                        <tr>
+                            <td>{{dbColumn.columnName}}</td>
+                            <td>{{dbColumn.columnDesc}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+            <div class="ui-g-12 ui-md-6 drop-column" pDroppable="DbTables" (onDrop)="dropDbTable($event)" [ngClass]="{'ui-highlight-dbTable':draggedDbTable}">
+                <p-table [value]="selectedDbTables">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Column Name</th>
+                            <th>Column Desc</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-dbColumn>
+                        <tr>
+                            <td>{{dbTable.tableName}}</td>
+                            <td>{{dbTable.tableDesc}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </p-accordionTab>
+    <p-accordionTab header="Filters" [selected]="true">
+        <query-builder [(ngModel)]='query' [config]='config' style="width: 1200px"></query-builder>
+    </p-accordionTab>
+
+    <p-accordionTab header="Group By" [selected]="false">2
+    </p-accordionTab>
+    <p-accordionTab header="Order By" [selected]="false">3
+    </p-accordionTab>
+    <p-accordionTab header="Query Results" [selected]="false">
+            <p-table [value]="queryResultSet" caption='Display Next 500 Records'>
+                    <ng-template pTemplate="caption">
+                        Currently displaying top 500 records.  Please click here for next 500 records
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                           
+                            <th>Claim Identifier</th>
+                            <th>Provide rName</th>
+                            <th>Provider Address</th>
+                            <th>Provider Tax Identifier</th>
+                            <th>Provider Contact Name</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-queryresult>
+                        <tr>
+                            <td>{{queryresult.claimIdentifier}}</td>
+                            <td>{{queryresult.providerName}}</td>
+                            <td>{{queryresult.providerAddress}}</td>
+                            <td>{{queryresult.providerTaxIdentifier}}</td>
+                            <td>{{queryresult.providerContactName}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+                
+    </p-accordionTab>
+</p-accordion>

@@ -1,7 +1,7 @@
 import { QueryBuilderConfig } from 'angular2-query-builder';
 import { Component, Input, Output, AfterViewInit, ElementRef, EventEmitter, OnChanges, OnInit } from '@angular/core';
 import {Car} from '../entity/car';
-import { DbTable } from '../entity/dbTable';
+import { DbTable, DbColumn, QueryResultset } from '../entity/dbTable';
 
 
 @Component({
@@ -10,24 +10,41 @@ import { DbTable } from '../entity/dbTable';
   styleUrls: ['./build-report.component.css']
 })
 export class BuildReportComponent implements OnInit {
-  availableCars: Car[];
-  selectedCars: Car[];
-  draggedCar: Car;
+
   availableDbTables: DbTable[];
   selectedDbTables: DbTable[];
   draggedDbTable: DbTable;
 
+
+  availableDbColumns: DbColumn[];
+  selectedDbColumn: DbColumn[];
+
+  queryResultSet: QueryResultset[];
   constructor() {
-    this.availableCars = [
-      {vin: '12', year: '1999'},
-      {vin: '21', year: '2000'},
-    ];
+
     this.availableDbTables = [
-      {tableName: 'Provider', tableDesc: 'billing providers'},
-      {tableName: 'Subscriber', tableDesc: 'Subscriber info'},
+      {tableName: 'Provider', tableDesc: 'Billing Provider - 2010AA'},
+      {tableName: 'PayToAddress', tableDesc: 'Pay-To Address  Name - 2010AB'},
+      {tableName: 'PayToPlan', tableDesc: 'Pay-To Plan Name - 2010AC'},
+      {tableName: 'Subscriber', tableDesc: 'Subscriber Name - 2010BA'},
+      {tableName: 'Payer', tableDesc: 'Payer Name - 2010BB'},
     ];
 
-    this.selectedCars = [];
+    this.availableDbColumns = [
+      {columnName: 'Entity ID Code', columnDesc: 'Entity ID Code - NM101'},
+      {columnName: 'Entity Type Qualifier', columnDesc: 'Entity Type Qualifier - NM102'},
+      {columnName: 'Name Last or Organization Name', columnDesc: 'Name Last or Organization Name - NM103'}
+
+    ];
+
+    this.queryResultSet = [
+      {claimIdentifier: '122xn32bb3', providerName: 'Adventist Hospital',
+        providerAddress: '123 Glendale st, Glendale Ca', providerTaxIdentifier: 'L323232NN332', providerContactName: 'Chris Isayan'},
+      {claimIdentifier: '122xn32bn4', providerName: 'Memorial Hospital',
+        providerAddress: '321 Brand Blvd, Glendale Ca', providerTaxIdentifier: 'L323232NN332', providerContactName: 'Sumeet Singh'}
+    ];
+
+
     this.selectedDbTables = [];
    }
   query = {
@@ -65,24 +82,9 @@ export class BuildReportComponent implements OnInit {
   dragStartDbTable(event, dbTable: DbTable) {
     this.draggedDbTable = dbTable;
   }
-  dragStart(event, car: Car) {
-    this.draggedCar = car;
-  }
-  drop(event) {
-    if ( this.draggedCar) {
-        const draggedCarIndex = this.findIndex(this.draggedCar);
-        this.selectedCars = [...this.selectedCars, this.draggedCar];
-        this.availableCars = this.availableCars.filter((val, i) => i !== draggedCarIndex);
-        this.draggedCar = null;
-    }
-  }
 
   dragEndDbTable(event) {
     this.draggedDbTable = null;
-  }
-
-  dragEnd(event) {
-      this.draggedCar = null;
   }
 
   findIndexDbTable(dbTable: DbTable) {
@@ -95,15 +97,6 @@ export class BuildReportComponent implements OnInit {
     }
     return index;
   }
-findIndex(car: Car) {
-    let index = -1;
-    for (let i = 0; i < this.availableCars.length; i++) {
-        if (car.vin === this.availableCars[i].vin) {
-            index = i;
-            break;
-        }
-    }
-    return index;
-  }
+
 
 }
